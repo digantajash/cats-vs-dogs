@@ -1,0 +1,132 @@
+{% extends "head.html" %}
+
+    {% block content %}
+    <title>Image-Clasifier</title>
+
+    <script>
+            function fileValidator(){
+            var image = document.getElementById('image');
+            var fileName = image.value;
+            var allowedExt = /(\.jpg)/i;
+            if(!allowedExt.exec(fileName)){
+                alert("This type of file is not allowed. Upload only JPG image !!");
+                image.value = "";
+                return false
+            }
+            else{
+                if(image.files && image.files[0]){
+                    var reader = new FileReader;
+                    reader.onload = function(e){
+                        //document.getElementById("imagePreview").innerHTML = '<img src="'+e.target.result+'"class="image-section" width="300" height="300">'
+                        var pic = document.getElementById('uploaded_image');
+                        var text = document.getElementById('defaultText');
+                        text.style.display = 'none';
+                        pic.style.display = 'block'
+                        pic.setAttribute('src',e.target.result);
+                    };
+                    reader.readAsDataURL(image.files[0]);
+                }
+            }
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <div class="row mt-2">
+            <div class="col-lg-9 d-flex justify-content-end">
+                <h1 class="display-4 text">DOG / CAT CLASSIFIER</h1>
+            </div>
+
+            <div class="col-lg-3 d-flex justify-content-end">
+                <a href="https://github.com/digantajash/catsvsdogs">
+                    <button class="btn btn-dark mt-3">
+                        <i class="fab fa-github fa-lg" style="color: white; "></i> Source Code
+                     </button>
+                 </a>
+            </div>
+        </div>
+
+        <div class="row">
+            
+            <div class="col-lg-12 d-flex justify-content-center">
+                <div id="imagePreview" class="imagePreview">
+                    <img src="" alt="Image Preview" class="image-section" id="uploaded_image">
+                    <span id="defaultText" class="default-text" style="font-family: comic sans ms;">Image Preview</span>
+                </div>
+            </div>
+        </div>
+        <div class="row" style="margin-top: 5rem;">
+            <div class="col-lg-12 d-flex justify-content-center">
+                <form action="/upload-new" method="POST" enctype="multipart/form-data">
+                    <input type="file" name="image" id="image"  onchange="return fileValidator()">
+                    <button type="submit" class="btn btn-primary">PREDICT</button>
+                </form>
+            </div>
+        </div>
+        <div class="row mt-4">
+            <div class="col-lg-12 d-flex justify-content-center">
+                <h2>{% if label %}
+                    Our model predicted this to be a : {{label}} 
+                    {% endif %}
+                </h2>
+            </div>
+        </div>
+
+
+        <hr>
+        <div class="row d-flex flex-row justify-content-start">
+            
+            <div class="col-lg-4">
+                <h1>Our contributers:- </h1>
+                <div class="card" style="width: 18rem; margin-top: 3rem;">
+                    <img src="https://lh3.googleusercontent.com/-L0rqznIvfeI/XThgvXMDaXI/AAAAAAAAEfI/NP6WlzfUoZAAw1eoMgKpYiJZNcX-B275gCEwYBhgLKtQDAL1OcqzHCBAjNd02cetj7YySAraiqyonlk2P4J1PGsYDgQ9upG90-Su_epfVuIhkLUI_b9El8jc5DR9rEVBqcOOqK6lTwvqMhSfPX8bQdEOyyjrd5QAsu72sAVeLSz9Kywv8-d8mB0r7SET-hXRRSK4HX0z7O1ujz7A8OIGstxelesFSZzqqGLosqWmz4OJ4yyIIybbytibTm-glNNRFXOZ6AwymSN1KSO_mf0k494I_EFMUkaO853aW9LPlQuZnYYvZ5UK6xVj-rRLSS2eP7G8800xYPxdST-77O3xz5DK5VO40-cZ07r5BGwCkUhYqM8_-feZXUYFptxqnJ1SWdu57ab5xrsQfJ40ZTi1SiTA6b4DDDsczTVyhnDBVU6ScCkkOgo9_Y7Q5TyiyAychw_Pfjuu7O3lPEHnmBmmL1rasa4gDXvnXkWm7yZ9O_UmhZwtkBXgncNtRyitihhQdRbN4TkuxsJg9lLxkbimPM2xvuWPNUNoE2rrzQhpM7BHn4__JxrEPGQitfdQZpeZYx7VINoe_fMyzeukl3XotfBq1p1sXVsNDzoPUufWdCkNkVfdDalQfjifubT17B4YHISDTU4oBCaois82tx12spMsIFuQpMICQjvoF/w139-h140-p/IMG-20181229-WA0053.jpg" 
+                    class="card-img-top" alt="...">
+                    <div class="card-body">
+                      <h5 class="card-title">Aritra Sarkar</h5>
+                      <p class="card-text">
+                        <p class="font-weight-bold">Web Developer</p> <br>
+                          Designed the flask server in which the image classifier is running.
+                     </p>
+                     <a href="https://github.com/aritra-sarkar99/">
+                        <button id="github-button" class="btn btn-dark">
+                            <i class="fab fa-github fa-lg" style="color: white; "></i> Connect in github
+                         </button>
+                     </a>
+
+                     <a href="https://www.linkedin.com/in/aritra-sarkar-927678191/">
+                        <button id="github-button" class="btn btn-primary mt-2">
+                            <i class="fab fa-linkedin-in fa-lg" style="color: white; "></i> Connect in LinkedIn
+                         </button>
+                     </a>
+                    </div>
+                  </div>
+            </div>
+
+            <div class="col-lg-4">
+                <div class="card" style="width: 18rem; margin-top: 6rem;">
+                    <img src="data:image/jpeg;base64,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" 
+                    class="card-img-top" alt="...">
+                    <div class="card-body">
+                      <h5 class="card-title">Diganta Jash</h5>
+                      <p class="card-text">
+                          <p class="font-weight-bold">ML Developer.</p> <br>
+                          Designed image classifier model using CNN which is predicting your image.
+                        </p>
+                      <a href="https://github.com/digantajash">
+                        <button id="github-button" class="btn btn-dark">
+                            <i class="fab fa-github fa-lg" style="color: white; "></i> Connect in github
+                         </button>
+                     </a>
+
+                     <a href="https://www.linkedin.com/in/diganta-jash-286005185/">
+                        <button id="github-button" class="btn btn-primary mt-2">
+                            <i class="fab fa-linkedin-in fa-lg" style="color: white; "></i> Connect in LinkedIn
+                         </button>
+                     </a>
+                    </div>
+                  </div>
+            </div>
+        </div>
+    </div>
+    
+    {% endblock %}
